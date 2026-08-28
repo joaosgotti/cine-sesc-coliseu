@@ -11,6 +11,7 @@
 <meta name="theme-color" content="#FFD400">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://image.tmdb.org">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -57,11 +58,7 @@ img{display:block;max-width:100%}
 .mask.on>span{transform:none}
 
 /* ---------------------------------------------------------------- topo */
-.topo{
-  position:sticky;top:0;z-index:40;
-  background:var(--papel);
-  border-bottom:1px solid var(--linha);
-}
+.topo{position:sticky;top:0;z-index:40;background:var(--papel);border-bottom:1px solid var(--linha)}
 .topo__in{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding-block:14px}
 .marca{font-family:var(--display);font-weight:800;font-size:clamp(17px,4.6vw,22px);letter-spacing:-.02em;line-height:1}
 .marca em{font-style:normal;background:var(--amarelo);padding:0 .18em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
@@ -70,75 +67,74 @@ img{display:block;max-width:100%}
 /* ------------------------------------------------------------- ticker */
 .ticker{border-bottom:1px solid var(--linha);overflow:hidden;background:var(--papel)}
 .ticker__faixa{display:flex;width:max-content;animation:desliza 42s linear infinite}
-.ticker__item{
-  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
-  padding:9px 0;white-space:nowrap;color:var(--cinza)
-}
+.ticker__item{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:9px 0;white-space:nowrap;color:var(--cinza)}
 .ticker__item::after{content:"◦";margin:0 1.1em;color:var(--amarelo)}
 @keyframes desliza{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* -------------------------------------------------------------- destaque */
 .destaque{padding-block:clamp(32px,7vw,72px) clamp(40px,7vw,80px)}
-.selo{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-  background:var(--amarelo);padding:6px 10px;
-}
+.selo{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;background:var(--amarelo);padding:6px 10px}
 .selo b{width:6px;height:6px;border-radius:50%;background:var(--tinta);animation:pisca 2.4s ease-in-out infinite}
 @keyframes pisca{0%,45%,100%{opacity:1}55%,95%{opacity:.15}}
 
-.data-hero{
-  font-family:var(--display);
-  font-weight:800;
-  font-size:clamp(46px,13.5vw,142px);
-  line-height:.86;
-  letter-spacing:-.045em;
-  margin-top:18px;
-  text-wrap:balance;
-}
-.data-hero span.dia{color:var(--cinza)}
+.data-hero{font-family:var(--display);font-weight:800;font-size:clamp(46px,13.5vw,142px);line-height:.86;letter-spacing:-.045em;margin-top:18px;text-wrap:balance}
 
 .sessoes{display:grid;gap:18px;margin-top:clamp(26px,5vw,44px)}
-@media (min-width:860px){ .sessoes{grid-template-columns:1fr 1fr;gap:28px} }
+@media (min-width:900px){ .sessoes{grid-template-columns:1fr 1fr;gap:28px} }
 
 .sessao{
-  position:relative;
-  border:1px solid var(--tinta);
-  background:var(--papel);
+  border:1px solid var(--tinta);background:var(--papel);
   display:flex;flex-direction:column;
   transition:transform .45s cubic-bezier(.2,.8,.2,1), background-color .45s ease;
 }
 .sessao:hover{background:var(--amarelo-fundo)}
-@media (min-width:860px){ .sessao:hover{transform:translateY(-6px)} }
+@media (min-width:900px){ .sessao:hover{transform:translateY(-6px)} }
 
 .sessao__hora{
   display:flex;align-items:center;justify-content:space-between;
   font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.1em;
-  padding:11px 16px;border-bottom:1px solid var(--tinta);
-  background:var(--tinta);color:var(--papel);
+  padding:11px 16px;background:var(--tinta);color:var(--papel);
 }
 .sessao__hora .n{font-size:11px;opacity:.65;letter-spacing:.16em}
 
-.sessao__arte{position:relative;aspect-ratio:16/10;overflow:hidden;border-bottom:1px solid var(--tinta);background:var(--tinta)}
-.sessao__arte img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
-.sessao:hover .sessao__arte img{transform:scale(1.05)}
-.sessao__arte--vazia{
-  display:flex;align-items:flex-end;padding:18px;
-  background:var(--tinta);color:var(--papel);
+.sessao__corpo{
+  flex:1;padding:16px;
+  display:grid;gap:14px 16px;
+  grid-template-columns:clamp(100px,30vw,132px) 1fr;
+  grid-template-areas:"capa cab" "sinopse sinopse" "acoes acoes";
+  align-items:start;
 }
-.sessao__arte--vazia p{
-  font-family:var(--display);font-weight:800;font-size:clamp(26px,6.4vw,44px);
-  line-height:.92;letter-spacing:-.035em;
+@media (min-width:560px){
+  .sessao__corpo{
+    padding:20px;
+    grid-template-columns:170px 1fr;
+    grid-template-areas:"capa cab" "capa sinopse" "capa acoes";
+    align-content:start;
+  }
 }
-.sessao__arte--vazia p i{font-style:normal;color:var(--amarelo)}
 
-.sessao__corpo{padding:18px 16px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
-.sessao__titulo{font-family:var(--display);font-weight:800;font-size:clamp(25px,5.6vw,38px);line-height:1;letter-spacing:-.03em}
+/* ---- capa */
+.capa{grid-area:capa;position:relative;aspect-ratio:2/3;overflow:hidden;background:var(--tinta);border:1px solid var(--tinta)}
+.capa img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.capa img.carregada{opacity:1}
+.sessao:hover .capa img{transform:scale(1.04)}
+.capa--tipo{display:flex;align-items:flex-end;padding:12px;color:var(--papel)}
+.capa--tipo p{font-family:var(--display);font-weight:800;font-size:clamp(15px,3.4vw,21px);line-height:1;letter-spacing:-.03em}
+.capa--tipo p i{font-style:normal;color:var(--amarelo)}
+.capa--load::after,.miniatura.capa--load::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,#1d1c1a 30%,#2b2a27 50%,#1d1c1a 70%);
+  background-size:220% 100%;animation:brilho 1.4s linear infinite;
+}
+@keyframes brilho{from{background-position:120% 0}to{background-position:-120% 0}}
+
+.sessao__cab{grid-area:cab;display:flex;flex-direction:column;gap:8px}
+.sessao__titulo{font-family:var(--display);font-weight:800;font-size:clamp(22px,4.8vw,33px);line-height:1;letter-spacing:-.03em}
 .ficha{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--cinza);line-height:1.7}
 .ficha b{color:var(--tinta);font-weight:400}
-.sinopse{font-size:15.5px;line-height:1.55;max-width:46ch}
+.sinopse{grid-area:sinopse;font-size:15.5px;line-height:1.55;max-width:46ch}
+.sessao__acoes{grid-area:acoes;display:flex;gap:10px;flex-wrap:wrap;align-self:end}
 
-.sessao__acoes{margin-top:auto;padding-top:14px;display:flex;gap:10px;flex-wrap:wrap}
 .btn{
   font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
   border:1px solid var(--tinta);background:transparent;color:var(--tinta);
@@ -152,10 +148,11 @@ img{display:block;max-width:100%}
 .mes__tit{font-family:var(--display);font-weight:800;font-size:clamp(28px,7vw,54px);letter-spacing:-.035em;line-height:1}
 .mes__nota{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--cinza)}
 
-.dia{border-top:1px solid var(--linha);padding-block:20px;display:grid;gap:14px}
+.dia{border-top:1px solid var(--linha);padding-block:18px;display:grid;gap:12px}
 @media (min-width:860px){ .dia{grid-template-columns:170px 1fr;gap:28px;align-items:start} }
 .dia--passou{color:var(--cinza)}
 .dia--passou .linha__titulo{color:var(--cinza)}
+.dia--passou .miniatura{filter:grayscale(1);opacity:.5}
 .dia--agora .dia__data b{background:var(--amarelo);padding:0 .2em}
 
 .dia__data{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;line-height:1.6}
@@ -164,14 +161,16 @@ img{display:block;max-width:100%}
 
 .linhas{display:grid;gap:2px}
 .linha{
-  display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:baseline;
-  padding:11px 12px;position:relative;
-  transition:background-color .3s ease,padding-left .3s ease;
+  display:grid;grid-template-columns:44px 50px 1fr;gap:12px;align-items:center;
+  padding:9px 12px;transition:background-color .3s ease,padding-left .3s ease;
 }
 .dia:not(.dia--passou) .linha:hover{background:var(--amarelo);padding-left:18px}
 .linha__hora{font-family:var(--mono);font-weight:700;font-size:12.5px;letter-spacing:.04em}
-.linha__titulo{font-family:var(--display);font-weight:600;font-size:clamp(19px,4.4vw,27px);line-height:1.05;letter-spacing:-.025em}
-.linha__meta{font-family:var(--mono);font-size:11px;color:var(--cinza);letter-spacing:.04em;margin-top:4px}
+.miniatura{position:relative;display:block;width:50px;aspect-ratio:2/3;background:var(--tinta);overflow:hidden;border:1px solid var(--tinta)}
+.miniatura img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease}
+.miniatura img.carregada{opacity:1}
+.linha__titulo{font-family:var(--display);font-weight:600;font-size:clamp(18px,4.2vw,26px);line-height:1.05;letter-spacing:-.025em;display:block}
+.linha__meta{font-family:var(--mono);font-size:11px;color:var(--cinza);letter-spacing:.04em;margin-top:4px;display:block}
 .dia:not(.dia--passou) .linha:hover .linha__meta{color:var(--tinta)}
 
 /* ------------------------------------------------------------- serviço */
@@ -184,6 +183,7 @@ img{display:block;max-width:100%}
 
 .rodape{background:var(--tinta);color:var(--cinza);padding-bottom:34px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
 .rodape__in{border-top:1px solid rgba(255,253,247,.16);padding-top:18px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.rodape a{text-decoration:underline;text-underline-offset:3px}
 
 .vazio{padding-block:60px;font-family:var(--mono);font-size:13px;color:var(--cinza)}
 
@@ -191,6 +191,7 @@ img{display:block;max-width:100%}
   *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
   .rev{opacity:1;transform:none}
   .mask>span{transform:none}
+  .capa img,.miniatura img{opacity:1}
 }
 </style>
 </head>
@@ -226,6 +227,28 @@ img{display:block;max-width:100%}
 (function(){
   "use strict";
 
+  /* =====================================================================
+     CAPAS DOS FILMES — TMDB
+     ---------------------------------------------------------------------
+     Cole abaixo a sua chave gratuita do TMDB (a "API Key", versão v3).
+     Como pegar: themoviedb.org -> criar conta -> Settings -> API ->
+     solicitar chave de uso pessoal. A aprovação é imediata.
+
+     Com a chave preenchida, a página busca o pôster de cada filme pelo
+     título e guarda o resultado por 30 dias no navegador de quem visita.
+     Sem a chave, tudo continua funcionando: os filmes aparecem com o
+     bloco tipográfico preto no lugar da capa.
+
+     Para travar a capa de um filme específico, preencha o campo "cartaz"
+     dele no programacao.js — esse valor sempre tem prioridade sobre a busca.
+     ===================================================================== */
+  var TMDB_KEY = "02cdfc05003be60563ccb02fb106a501";
+
+  var IMG_GRANDE = "https://image.tmdb.org/t/p/w500";
+  var IMG_MINI   = "https://image.tmdb.org/t/p/w185";
+  var CACHE_CHAVE = "capas-cinema-sesc";
+  var CACHE_DIAS = 30;
+
   var DIAS = ["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
   var MESES = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
 
@@ -245,12 +268,82 @@ img{display:block;max-width:100%}
   var h = hoje();
   var atual = sessoes.filter(function(s){ return paraData(s.data) >= h; })[0] || sessoes[sessoes.length - 1];
   var jaPassou = paraData(atual.data) < h;
+  var buscando = !!TMDB_KEY;
+
+  /* -------------------------------------------------------------- cache */
+  function lerCache(){
+    try{
+      var c = JSON.parse(localStorage.getItem(CACHE_CHAVE) || "{}");
+      if(!c.salvo || Date.now() - c.salvo > CACHE_DIAS * 864e5) return {};
+      return c.itens || {};
+    }catch(e){ return {}; }
+  }
+  function gravarCache(itens){
+    try{ localStorage.setItem(CACHE_CHAVE, JSON.stringify({salvo:Date.now(), itens:itens})); }catch(e){}
+  }
+  var cache = lerCache();
+  function chaveFilme(f){ return (f.titulo || "").toLowerCase() + "|" + (f.ano || ""); }
+
+  function buscarPoster(f){
+    if(f.cartaz) return Promise.resolve({grande:f.cartaz, mini:f.cartaz});
+    if(!TMDB_KEY) return Promise.resolve(null);
+
+    var k = chaveFilme(f);
+    if(k in cache){
+      var p = cache[k];
+      return Promise.resolve(p ? {grande:IMG_GRANDE + p, mini:IMG_MINI + p} : null);
+    }
+
+    var url = "https://api.themoviedb.org/3/search/movie?api_key=" + encodeURIComponent(TMDB_KEY) +
+      "&language=pt-BR&include_adult=false&query=" + encodeURIComponent(f.titulo) +
+      (f.ano ? "&year=" + encodeURIComponent(f.ano) : "");
+
+    return fetch(url)
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){
+        var achado = j && j.results && j.results.filter(function(x){ return x.poster_path; })[0];
+        var caminho = achado ? achado.poster_path : null;
+        cache[k] = caminho;
+        gravarCache(cache);
+        return caminho ? {grande:IMG_GRANDE + caminho, mini:IMG_MINI + caminho} : null;
+      })
+      .catch(function(){ return null; });
+  }
+
+  function pintarCapa(el, filme, tamanho){
+    buscarPoster(filme).then(function(p){
+      el.classList.remove("capa--load");
+      if(!p){
+        if(el.classList.contains("capa")){
+          el.classList.add("capa--tipo");
+          el.innerHTML = "<p>" + esc(filme.titulo) + " <i>&#9679;</i></p>";
+        }
+        return;
+      }
+      var img = new Image();
+      img.alt = "Pôster de " + filme.titulo;
+      img.decoding = "async";
+      img.onload = function(){
+        el.innerHTML = "";
+        el.classList.remove("capa--tipo");
+        el.appendChild(img);
+        requestAnimationFrame(function(){ img.classList.add("carregada"); });
+      };
+      img.onerror = function(){
+        if(el.classList.contains("capa")){
+          el.classList.add("capa--tipo");
+          el.innerHTML = "<p>" + esc(filme.titulo) + " <i>&#9679;</i></p>";
+        }
+      };
+      img.src = tamanho === "mini" ? p.mini : p.grande;
+    });
+  }
 
   /* ------------------------------------------------------------- ticker */
   var titulos = [];
   sessoes.forEach(function(s){ s.filmes.forEach(function(f){ if(f.titulo) titulos.push(f.titulo); }); });
-  var linha = titulos.map(function(t){ return '<span class="ticker__item">' + esc(t) + '</span>'; }).join("");
-  document.getElementById("ticker").innerHTML = linha + linha;
+  var linhaT = titulos.map(function(t){ return '<span class="ticker__item">' + esc(t) + '</span>'; }).join("");
+  document.getElementById("ticker").innerHTML = linhaT + linhaT;
   document.getElementById("topo-mes").textContent = P.mes || "";
 
   /* ----------------------------------------------------------- destaque */
@@ -267,22 +360,19 @@ img{display:block;max-width:100%}
     return partes.join(" · ");
   }
 
-  function arte(f){
-    if(f.cartaz){
-      return '<div class="sessao__arte"><img src="' + esc(f.cartaz) + '" alt="Cena de ' + esc(f.titulo) + '" loading="lazy"></div>';
-    }
-    var t = esc(f.titulo);
-    return '<div class="sessao__arte sessao__arte--vazia"><p>' + t + ' <i>●</i></p></div>';
-  }
-
   var cards = atual.filmes.map(function(f, i){
+    var temImagem = f.cartaz || buscando;
     return '<article class="sessao rev">' +
       '<div class="sessao__hora"><span>' + esc(f.hora) + '</span><span class="n">Sessão ' + (i+1) + ' de ' + atual.filmes.length + '</span></div>' +
-      arte(f) +
       '<div class="sessao__corpo">' +
-        '<h2 class="sessao__titulo">' + esc(f.titulo) + '</h2>' +
-        (ficha(f) ? '<p class="ficha">' + ficha(f) + '</p>' : '') +
-        (f.sinopse ? '<p class="sinopse">' + esc(f.sinopse) + '</p>' : '') +
+        '<div class="capa ' + (temImagem ? "capa--load" : "capa--tipo") + '" data-capa="' + i + '">' +
+          (temImagem ? "" : "<p>" + esc(f.titulo) + " <i>&#9679;</i></p>") +
+        '</div>' +
+        '<div class="sessao__cab">' +
+          '<h2 class="sessao__titulo">' + esc(f.titulo) + '</h2>' +
+          (ficha(f) ? '<p class="ficha">' + ficha(f) + '</p>' : '') +
+        '</div>' +
+        (f.sinopse ? '<p class="sinopse">' + esc(f.sinopse) + '</p>' : '<span class="sinopse"></span>') +
         '<div class="sessao__acoes"><button class="btn" data-ics="' + i + '">Salvar na agenda</button></div>' +
       '</div>' +
     '</article>';
@@ -294,14 +384,22 @@ img{display:block;max-width:100%}
       '<span class="mask"><span>' + d.getDate() + ' de ' + MESES[d.getMonth()] + '</span></span></h1>' +
     '<div class="sessoes">' + cards + '</div>';
 
+  document.querySelectorAll("[data-capa]").forEach(function(el){
+    pintarCapa(el, atual.filmes[+el.getAttribute("data-capa")], "grande");
+  });
+
   /* --------------------------------------------------------------- mês */
+  var refs = [];
   var dias = sessoes.map(function(s){
     var sd = paraData(s.data);
     var passou = sd < h;
     var agora = sd.getTime() === paraData(atual.data).getTime();
     var linhas = s.filmes.map(function(f){
       var meta = [f.direcao, f.ano, f.duracao].filter(Boolean).join(" · ");
-      return '<div class="linha"><span class="linha__hora">' + esc(f.hora) + '</span>' +
+      refs.push(f);
+      return '<div class="linha">' +
+        '<span class="linha__hora">' + esc(f.hora) + '</span>' +
+        '<span class="miniatura' + ((f.cartaz || buscando) ? " capa--load" : "") + '" data-mini="' + (refs.length-1) + '"></span>' +
         '<span><span class="linha__titulo">' + esc(f.titulo) + '</span>' +
         (meta ? '<span class="linha__meta">' + esc(meta) + '</span>' : '') + '</span></div>';
     }).join("");
@@ -315,6 +413,10 @@ img{display:block;max-width:100%}
     '<div class="mes__cab rev"><h2 class="mes__tit">' + esc(P.mes || "O mês inteiro") + '</h2>' +
     '<p class="mes__nota">' + sessoes.length + ' quartas · ' + titulos.length + ' filmes</p></div>' + dias;
 
+  document.querySelectorAll("[data-mini]").forEach(function(el){
+    pintarCapa(el, refs[+el.getAttribute("data-mini")], "mini");
+  });
+
   /* ----------------------------------------------------------- serviço */
   document.getElementById("servico").innerHTML =
     '<div class="rev"><h3>Onde</h3><p>' + esc(P.endereco || "") +
@@ -323,7 +425,8 @@ img{display:block;max-width:100%}
     '<div class="rev"><h3>Quando</h3><p>' + esc(P.observacao || "") +
       (P.instagram ? '<br><a href="' + esc(P.instagram) + '" target="_blank" rel="noopener">Instagram do Sesc</a>' : '') + '</p></div>';
 
-  document.getElementById("rodape-att").textContent = P.unidade + " · " + P.cidade;
+  document.getElementById("rodape-att").innerHTML = esc(P.unidade + " · " + P.cidade) +
+    (buscando ? ' · Capas: <a href="https://www.themoviedb.org" target="_blank" rel="noopener">TMDB</a>' : '');
 
   /* -------------------------------------------------------------- .ics */
   document.getElementById("destaque").addEventListener("click", function(ev){
