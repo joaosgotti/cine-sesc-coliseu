@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cinema Sesc Casa Amarela — programação</title>
+<meta name="description" content="Programação do cinema do Sesc Casa Amarela, Recife. Duas sessões toda quarta-feira, às 17h e às 19h.">
+<meta property="og:title" content="Cinema Sesc Casa Amarela">
+<meta property="og:description" content="Duas sessões toda quarta-feira, 17h e 19h. Veja o que passa esta semana.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#FFD400">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ---------------------------------------------------------------- tokens */
+:root{
+  --papel:#FFFDF7;
+  --tinta:#131211;
+  --amarelo:#FFD400;
+  --amarelo-fundo:#FFE870;
+  --cinza:#8F8B82;
+  --linha:#E2DED2;
+
+  --display:"Bricolage Grotesque", system-ui, sans-serif;
+  --corpo:"Archivo", system-ui, sans-serif;
+  --mono:"Space Mono", ui-monospace, monospace;
+
+  --gutter:20px;
+  --max:1240px;
+}
+@media (min-width:820px){ :root{ --gutter:40px; } }
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--papel);
+  color:var(--tinta);
+  font-family:var(--corpo);
+  font-size:17px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{color:inherit}
+img{display:block;max-width:100%}
+:focus-visible{outline:3px solid var(--tinta);outline-offset:3px}
+
+.env{max-width:var(--max);margin:0 auto;padding-inline:var(--gutter)}
+
+/* --------------------------------------------------------------- reveals */
+.rev{opacity:0;transform:translateY(14px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.rev.on{opacity:1;transform:none}
+.mask{display:block;overflow:hidden}
+.mask>span{display:block;transform:translateY(105%);transition:transform .9s cubic-bezier(.16,.9,.24,1)}
+.mask.on>span{transform:none}
+
+/* ---------------------------------------------------------------- topo */
+.topo{
+  position:sticky;top:0;z-index:40;
+  background:var(--papel);
+  border-bottom:1px solid var(--linha);
+}
+.topo__in{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding-block:14px}
+.marca{font-family:var(--display);font-weight:800;font-size:clamp(17px,4.6vw,22px);letter-spacing:-.02em;line-height:1}
+.marca em{font-style:normal;background:var(--amarelo);padding:0 .18em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.topo__mes{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--cinza);white-space:nowrap}
+
+/* ------------------------------------------------------------- ticker */
+.ticker{border-bottom:1px solid var(--linha);overflow:hidden;background:var(--papel)}
+.ticker__faixa{display:flex;width:max-content;animation:desliza 42s linear infinite}
+.ticker__item{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  padding:9px 0;white-space:nowrap;color:var(--cinza)
+}
+.ticker__item::after{content:"◦";margin:0 1.1em;color:var(--amarelo)}
+@keyframes desliza{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* -------------------------------------------------------------- destaque */
+.destaque{padding-block:clamp(32px,7vw,72px) clamp(40px,7vw,80px)}
+.selo{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--amarelo);padding:6px 10px;
+}
+.selo b{width:6px;height:6px;border-radius:50%;background:var(--tinta);animation:pisca 2.4s ease-in-out infinite}
+@keyframes pisca{0%,45%,100%{opacity:1}55%,95%{opacity:.15}}
+
+.data-hero{
+  font-family:var(--display);
+  font-weight:800;
+  font-size:clamp(46px,13.5vw,142px);
+  line-height:.86;
+  letter-spacing:-.045em;
+  margin-top:18px;
+  text-wrap:balance;
+}
+.data-hero span.dia{color:var(--cinza)}
+
+.sessoes{display:grid;gap:18px;margin-top:clamp(26px,5vw,44px)}
+@media (min-width:860px){ .sessoes{grid-template-columns:1fr 1fr;gap:28px} }
+
+.sessao{
+  position:relative;
+  border:1px solid var(--tinta);
+  background:var(--papel);
+  display:flex;flex-direction:column;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1), background-color .45s ease;
+}
+.sessao:hover{background:var(--amarelo-fundo)}
+@media (min-width:860px){ .sessao:hover{transform:translateY(-6px)} }
+
+.sessao__hora{
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.1em;
+  padding:11px 16px;border-bottom:1px solid var(--tinta);
+  background:var(--tinta);color:var(--papel);
+}
+.sessao__hora .n{font-size:11px;opacity:.65;letter-spacing:.16em}
+
+.sessao__arte{position:relative;aspect-ratio:16/10;overflow:hidden;border-bottom:1px solid var(--tinta);background:var(--tinta)}
+.sessao__arte img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.sessao:hover .sessao__arte img{transform:scale(1.05)}
+.sessao__arte--vazia{
+  display:flex;align-items:flex-end;padding:18px;
+  background:var(--tinta);color:var(--papel);
+}
+.sessao__arte--vazia p{
+  font-family:var(--display);font-weight:800;font-size:clamp(26px,6.4vw,44px);
+  line-height:.92;letter-spacing:-.035em;
+}
+.sessao__arte--vazia p i{font-style:normal;color:var(--amarelo)}
+
+.sessao__corpo{padding:18px 16px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.sessao__titulo{font-family:var(--display);font-weight:800;font-size:clamp(25px,5.6vw,38px);line-height:1;letter-spacing:-.03em}
+.ficha{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--cinza);line-height:1.7}
+.ficha b{color:var(--tinta);font-weight:400}
+.sinopse{font-size:15.5px;line-height:1.55;max-width:46ch}
+
+.sessao__acoes{margin-top:auto;padding-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+.btn{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--tinta);background:transparent;color:var(--tinta);
+  padding:9px 13px;cursor:pointer;transition:background-color .25s ease,color .25s ease;
+}
+.btn:hover{background:var(--tinta);color:var(--papel)}
+
+/* ----------------------------------------------------------------- mês */
+.mes{border-top:1px solid var(--tinta);padding-block:clamp(30px,5vw,56px) clamp(40px,7vw,80px)}
+.mes__cab{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.mes__tit{font-family:var(--display);font-weight:800;font-size:clamp(28px,7vw,54px);letter-spacing:-.035em;line-height:1}
+.mes__nota{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--cinza)}
+
+.dia{border-top:1px solid var(--linha);padding-block:20px;display:grid;gap:14px}
+@media (min-width:860px){ .dia{grid-template-columns:170px 1fr;gap:28px;align-items:start} }
+.dia--passou{color:var(--cinza)}
+.dia--passou .linha__titulo{color:var(--cinza)}
+.dia--agora .dia__data b{background:var(--amarelo);padding:0 .2em}
+
+.dia__data{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;line-height:1.6}
+.dia__data b{display:inline-block;font-weight:700;font-size:15px;letter-spacing:.02em}
+.dia__data span{display:block;color:var(--cinza)}
+
+.linhas{display:grid;gap:2px}
+.linha{
+  display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:baseline;
+  padding:11px 12px;position:relative;
+  transition:background-color .3s ease,padding-left .3s ease;
+}
+.dia:not(.dia--passou) .linha:hover{background:var(--amarelo);padding-left:18px}
+.linha__hora{font-family:var(--mono);font-weight:700;font-size:12.5px;letter-spacing:.04em}
+.linha__titulo{font-family:var(--display);font-weight:600;font-size:clamp(19px,4.4vw,27px);line-height:1.05;letter-spacing:-.025em}
+.linha__meta{font-family:var(--mono);font-size:11px;color:var(--cinza);letter-spacing:.04em;margin-top:4px}
+.dia:not(.dia--passou) .linha:hover .linha__meta{color:var(--tinta)}
+
+/* ------------------------------------------------------------- serviço */
+.servico{border-top:1px solid var(--tinta);background:var(--tinta);color:var(--papel);padding-block:clamp(36px,6vw,64px)}
+.servico__grade{display:grid;gap:26px}
+@media (min-width:760px){ .servico__grade{grid-template-columns:repeat(3,1fr);gap:36px} }
+.servico h3{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--amarelo);font-weight:400;margin-bottom:10px}
+.servico p{font-size:16px;line-height:1.5;max-width:34ch}
+.servico a{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+
+.rodape{background:var(--tinta);color:var(--cinza);padding-bottom:34px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+.rodape__in{border-top:1px solid rgba(255,253,247,.16);padding-top:18px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+.vazio{padding-block:60px;font-family:var(--mono);font-size:13px;color:var(--cinza)}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+  .rev{opacity:1;transform:none}
+  .mask>span{transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="env topo__in">
+    <div class="marca">Cinema <em>Sesc</em> Casa Amarela</div>
+    <div class="topo__mes" id="topo-mes"></div>
+  </div>
+</header>
+
+<div class="ticker" aria-hidden="true"><div class="ticker__faixa" id="ticker"></div></div>
+
+<main id="app">
+  <section class="destaque env" id="destaque"></section>
+  <section class="mes"><div class="env" id="mes"></div></section>
+</main>
+
+<section class="servico">
+  <div class="env servico__grade" id="servico"></div>
+</section>
+
+<footer class="rodape">
+  <div class="env rodape__in">
+    <span>Página feita por um espectador · não oficial</span>
+    <span id="rodape-att"></span>
+  </div>
+</footer>
+
+<script src="programacao.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var DIAS = ["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
+  var MESES = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+
+  function paraData(s){ var p = String(s).split("-"); return new Date(+p[0], +p[1]-1, +p[2]); }
+  function hoje(){ var d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+
+  var P = window.PROGRAMACAO || (typeof PROGRAMACAO !== "undefined" ? PROGRAMACAO : null);
+  if(!P || !P.sessoes || !P.sessoes.length){
+    document.getElementById("app").innerHTML =
+      '<div class="env vazio">Nenhuma programação carregada. Confira o arquivo programacao.js.</div>';
+    return;
+  }
+
+  var sessoes = P.sessoes.slice().sort(function(a,b){ return paraData(a.data) - paraData(b.data); });
+  var h = hoje();
+  var atual = sessoes.filter(function(s){ return paraData(s.data) >= h; })[0] || sessoes[sessoes.length - 1];
+  var jaPassou = paraData(atual.data) < h;
+
+  /* ------------------------------------------------------------- ticker */
+  var titulos = [];
+  sessoes.forEach(function(s){ s.filmes.forEach(function(f){ if(f.titulo) titulos.push(f.titulo); }); });
+  var linha = titulos.map(function(t){ return '<span class="ticker__item">' + esc(t) + '</span>'; }).join("");
+  document.getElementById("ticker").innerHTML = linha + linha;
+  document.getElementById("topo-mes").textContent = P.mes || "";
+
+  /* ----------------------------------------------------------- destaque */
+  var d = paraData(atual.data);
+  var selo = jaPassou ? "Última sessão do mês" : (d.getTime() === h.getTime() ? "É hoje" : "Próxima sessão");
+
+  function ficha(f){
+    var partes = [];
+    if(f.direcao) partes.push("Direção <b>" + esc(f.direcao) + "</b>");
+    var pa = [f.pais, f.ano].filter(Boolean).join(", ");
+    if(pa) partes.push(esc(pa));
+    if(f.duracao) partes.push(esc(f.duracao));
+    if(f.classificacao) partes.push(esc(f.classificacao));
+    return partes.join(" · ");
+  }
+
+  function arte(f){
+    if(f.cartaz){
+      return '<div class="sessao__arte"><img src="' + esc(f.cartaz) + '" alt="Cena de ' + esc(f.titulo) + '" loading="lazy"></div>';
+    }
+    var t = esc(f.titulo);
+    return '<div class="sessao__arte sessao__arte--vazia"><p>' + t + ' <i>●</i></p></div>';
+  }
+
+  var cards = atual.filmes.map(function(f, i){
+    return '<article class="sessao rev">' +
+      '<div class="sessao__hora"><span>' + esc(f.hora) + '</span><span class="n">Sessão ' + (i+1) + ' de ' + atual.filmes.length + '</span></div>' +
+      arte(f) +
+      '<div class="sessao__corpo">' +
+        '<h2 class="sessao__titulo">' + esc(f.titulo) + '</h2>' +
+        (ficha(f) ? '<p class="ficha">' + ficha(f) + '</p>' : '') +
+        (f.sinopse ? '<p class="sinopse">' + esc(f.sinopse) + '</p>' : '') +
+        '<div class="sessao__acoes"><button class="btn" data-ics="' + i + '">Salvar na agenda</button></div>' +
+      '</div>' +
+    '</article>';
+  }).join("");
+
+  document.getElementById("destaque").innerHTML =
+    '<p class="selo rev"><b></b>' + selo + '</p>' +
+    '<h1 class="data-hero"><span class="mask"><span>' + DIAS[d.getDay()] + ',</span></span>' +
+      '<span class="mask"><span>' + d.getDate() + ' de ' + MESES[d.getMonth()] + '</span></span></h1>' +
+    '<div class="sessoes">' + cards + '</div>';
+
+  /* --------------------------------------------------------------- mês */
+  var dias = sessoes.map(function(s){
+    var sd = paraData(s.data);
+    var passou = sd < h;
+    var agora = sd.getTime() === paraData(atual.data).getTime();
+    var linhas = s.filmes.map(function(f){
+      var meta = [f.direcao, f.ano, f.duracao].filter(Boolean).join(" · ");
+      return '<div class="linha"><span class="linha__hora">' + esc(f.hora) + '</span>' +
+        '<span><span class="linha__titulo">' + esc(f.titulo) + '</span>' +
+        (meta ? '<span class="linha__meta">' + esc(meta) + '</span>' : '') + '</span></div>';
+    }).join("");
+    return '<div class="dia rev' + (passou ? ' dia--passou' : '') + (agora ? ' dia--agora' : '') + '">' +
+      '<div class="dia__data"><b>' + String(sd.getDate()).padStart(2,"0") + "." + String(sd.getMonth()+1).padStart(2,"0") + '</b>' +
+      '<span>' + (passou ? "já exibido" : (agora ? "esta semana" : DIAS[sd.getDay()])) + '</span></div>' +
+      '<div class="linhas">' + linhas + '</div></div>';
+  }).join("");
+
+  document.getElementById("mes").innerHTML =
+    '<div class="mes__cab rev"><h2 class="mes__tit">' + esc(P.mes || "O mês inteiro") + '</h2>' +
+    '<p class="mes__nota">' + sessoes.length + ' quartas · ' + titulos.length + ' filmes</p></div>' + dias;
+
+  /* ----------------------------------------------------------- serviço */
+  document.getElementById("servico").innerHTML =
+    '<div class="rev"><h3>Onde</h3><p>' + esc(P.endereco || "") +
+      (P.mapa ? '<br><a href="' + esc(P.mapa) + '" target="_blank" rel="noopener">Abrir no mapa</a>' : '') + '</p></div>' +
+    '<div class="rev"><h3>Entrada</h3><p>' + esc(P.entrada || "") + '</p></div>' +
+    '<div class="rev"><h3>Quando</h3><p>' + esc(P.observacao || "") +
+      (P.instagram ? '<br><a href="' + esc(P.instagram) + '" target="_blank" rel="noopener">Instagram do Sesc</a>' : '') + '</p></div>';
+
+  document.getElementById("rodape-att").textContent = P.unidade + " · " + P.cidade;
+
+  /* -------------------------------------------------------------- .ics */
+  document.getElementById("destaque").addEventListener("click", function(ev){
+    var b = ev.target.closest("[data-ics]");
+    if(!b) return;
+    var f = atual.filmes[+b.getAttribute("data-ics")];
+    var dia = atual.data.replace(/-/g,"");
+    var hi = f.hora.replace(":","") + "00";
+    var fim = String(Math.min(23, +f.hora.split(":")[0] + 2)).padStart(2,"0") + f.hora.split(":")[1] + "00";
+    var ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//cinema sesc//PT-BR","BEGIN:VEVENT",
+      "UID:" + dia + hi + "@cinemasesc","DTSTART:" + dia + "T" + hi,"DTEND:" + dia + "T" + fim,
+      "SUMMARY:" + f.titulo + " — " + P.unidade,
+      "LOCATION:" + (P.endereco || ""),
+      "DESCRIPTION:" + (f.sinopse || "").replace(/\n/g," "),
+      "END:VEVENT","END:VCALENDAR"].join("\r\n");
+    var url = URL.createObjectURL(new Blob([ics], {type:"text/calendar"}));
+    var a = document.createElement("a");
+    a.href = url; a.download = f.titulo.replace(/[^\w]+/g,"-").toLowerCase() + ".ics";
+    a.click(); URL.revokeObjectURL(url);
+  });
+
+  /* ------------------------------------------------------------ motion */
+  var io = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add("on"); io.unobserve(e.target); }
+    });
+  }, {rootMargin:"0px 0px -8% 0px", threshold:.08});
+
+  document.querySelectorAll(".rev").forEach(function(el, i){
+    el.style.transitionDelay = Math.min(i, 6) * 55 + "ms";
+    io.observe(el);
+  });
+  document.querySelectorAll(".mask").forEach(function(el, i){
+    el.querySelector("span").style.transitionDelay = (120 + i * 110) + "ms";
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ el.classList.add("on"); }); });
+  });
+})();
+</script>
+</body>
+</html>
